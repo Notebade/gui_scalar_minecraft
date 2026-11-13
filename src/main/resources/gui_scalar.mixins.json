@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.notebade.guiscalar.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": ["WindowMixin", "OptionInstanceMixin", "VideoSettingsScreenMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

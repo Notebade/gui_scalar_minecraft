@@ -1,0 +1,9 @@
+{
+  "gui_scalar.open": "Масштаб GUI: ползунок...",
+  "gui_scalar.title": "Масштаб интерфейса",
+  "gui_scalar.exact": "Точный масштаб",
+  "gui_scalar.value": "Масштаб GUI: %s",
+  "gui_scalar.apply": "ОК",
+  "gui_scalar.vanilla": "Сбросить на ванильный масштаб / Авто",
+  "gui_scalar.range": "1.00 - %s | Стрелки / кнопки: 0.01"
+}

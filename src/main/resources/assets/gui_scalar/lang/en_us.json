@@ -1,0 +1,9 @@
+{
+  "gui_scalar.open": "GUI Scale: slider...",
+  "gui_scalar.title": "GUI Scalar",
+  "gui_scalar.exact": "Exact scale",
+  "gui_scalar.value": "GUI scale: %s",
+  "gui_scalar.apply": "Apply",
+  "gui_scalar.vanilla": "Reset to vanilla scale / Auto",
+  "gui_scalar.range": "1.00 - %s | Arrows / buttons: 0.01"
+}

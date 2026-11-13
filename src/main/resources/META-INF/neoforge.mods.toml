@@ -1,0 +1,21 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+[[mods]]
+modId = "gui_scalar"
+version = "1.0.0"
+displayName = "GUI Scalar"
+authors = "Notebade"
+description = "Fractional GUI scaling with a live slider and 0.01 precision."
+[[mixins]]
+config = "gui_scalar.mixins.json"
+[[dependencies.gui_scalar]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.219,21.2)"
+side = "CLIENT"
+[[dependencies.gui_scalar]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1]"
+side = "CLIENT"

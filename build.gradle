@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'net.neoforged.gradle.userdev' version '7.1.20'
+}
+group = 'io.github.notebade'
+version = '1.0.0'
+base { archivesName = 'gui-scalar' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+subsystems.conventions.runs.shouldDefaultRunsBeCreated.set(false)
+dependencies { implementation 'net.neoforged:neoforge:21.1.219' }
+runs {
+    client {
+        workingDirectory project.layout.projectDirectory.dir('runs/client')
+        modSource project.sourceSets.main
+    }
+}
+sourceSets {
+    verification {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+tasks.register('verifyScale', JavaExec) {
+    dependsOn verificationClasses
+    classpath = sourceSets.verification.runtimeClasspath
+    mainClass = 'io.github.notebade.guiscalar.ScaleMathTest'
+}
+tasks.named('check') { dependsOn 'verifyScale' }
