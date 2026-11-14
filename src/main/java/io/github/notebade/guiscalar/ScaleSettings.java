@@ -21,10 +21,14 @@ public final class ScaleSettings {
 
     public static String format(double value) { return String.format(Locale.ROOT, "%.2f", value); }
 
-    public static void preview(double value) { requested = ScaleMath.round(value); }
+    public static void preview(double value) { requested = value == 0 ? 0 : ScaleMath.round(value); }
 
     public static void save(double value) {
-        requested = value == 0 ? 0 : ScaleMath.round(value);
+        preview(value);
+        flush();
+    }
+
+    static void flush() {
         Properties properties = new Properties();
         properties.setProperty("scale", format(requested));
         try {

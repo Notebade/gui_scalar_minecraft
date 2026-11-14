@@ -3,11 +3,36 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.1.20'
 }
 group = 'io.github.notebade'
-version = '1.0.0'
+version = '1.1.0'
 base { archivesName = 'gui-scalar' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 subsystems.conventions.runs.shouldDefaultRunsBeCreated.set(false)
-dependencies { implementation 'net.neoforged:neoforge:21.1.219' }
+repositories {
+    maven {
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
+}
+configurations {
+    sodiumDistribution {
+        canBeConsumed = false
+        transitive = false
+    }
+}
+// The NeoForge distribution packages the public config API inside its nested mod JAR.
+def extractSodiumApi = tasks.register('extractSodiumApi', Copy) {
+    from({ zipTree(configurations.sodiumDistribution.singleFile) }) {
+        include 'META-INF/jarjar/net.caffeinemc.sodium-neoforge-*-mod.jar'
+        eachFile { path = 'sodium-api.jar' }
+        includeEmptyDirs = false
+    }
+    into layout.buildDirectory.dir('sodium-api')
+}
+dependencies {
+    implementation 'net.neoforged:neoforge:21.1.219'
+    sodiumDistribution 'maven.modrinth:sodium:uMOpc5uV' // Sodium 0.8.13 for NeoForge 1.21.1
+    compileOnly files(layout.buildDirectory.file('sodium-api/sodium-api.jar')).builtBy(extractSodiumApi)
+}
 runs {
     client {
         workingDirectory project.layout.projectDirectory.dir('runs/client')

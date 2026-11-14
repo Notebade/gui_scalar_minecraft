@@ -5,5 +5,7 @@
   "gui_scalar.value": "GUI scale: %s",
   "gui_scalar.apply": "Apply",
   "gui_scalar.vanilla": "Reset to vanilla scale / Auto",
-  "gui_scalar.range": "1.00 - %s | Arrows / buttons: 0.01"
+  "gui_scalar.range": "1.00 - %s | Arrows / buttons: 0.01",
+  "gui_scalar.sodium.vanilla": "Vanilla",
+  "gui_scalar.sodium.tooltip": "Drag or use the left and right arrow keys to adjust the interface scale in steps of 0.01. Press Apply to save. The maximum depends on the window size."
 }
