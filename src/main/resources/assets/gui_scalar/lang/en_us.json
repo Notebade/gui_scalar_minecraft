@@ -5,7 +5,5 @@
   "gui_scalar.value": "GUI scale: %s",
   "gui_scalar.apply": "Apply",
   "gui_scalar.vanilla": "Reset to vanilla scale / Auto",
-  "gui_scalar.range": "1.00 - %s | Arrows / buttons: 0.01",
-  "key.gui_scalar.open": "Open interface scale",
-  "key.categories.gui_scalar": "GUI Scalar"
+  "gui_scalar.range": "1.00 - %s | Arrows / buttons: 0.01"
 }
