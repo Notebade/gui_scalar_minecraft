@@ -3,7 +3,7 @@ loaderVersion = "[4,)"
 license = "MIT"
 [[mods]]
 modId = "gui_scalar"
-version = "1.0.0"
+version = "1.1.0"
 displayName = "GUI Scalar"
 authors = "Notebade"
 description = "Fractional GUI scaling with a live slider and 0.01 precision."
