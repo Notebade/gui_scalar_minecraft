@@ -133,7 +133,7 @@ public final class ScaleScreen extends Screen {
 
         @Override
         protected void applyValue() {
-            if (dragging) {
+            if (ScaleScreen.this.dragging) {
                 ScaleSettings.preview(layer, selected());
                 minecraft.resizeDisplay();
             }
@@ -144,14 +144,14 @@ public final class ScaleScreen extends Screen {
             double scale = minecraft.getWindow().getGuiScale();
             anchorX = getX() * scale;
             anchorWidth = getWidth() * scale;
-            dragging = true;
+            ScaleScreen.this.dragging = true;
             super.onClick(x, y);
         }
 
         @Override
         public void onRelease(double x, double y) {
             super.onRelease(x, y);
-            dragging = false;
+            ScaleScreen.this.dragging = false;
             apply(selected());
         }
 
