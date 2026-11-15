@@ -3,6 +3,6 @@
   "minVersion": "0.8",
   "package": "io.github.notebade.guiscalar.mixin",
   "compatibilityLevel": "JAVA_21",
-  "client": ["WindowMixin", "OptionInstanceMixin", "VideoSettingsScreenMixin"],
+  "client": ["WindowMixin", "OptionInstanceMixin", "VideoSettingsScreenMixin", "MinecraftMixin", "GuiMixin"],
   "injectors": { "defaultRequire": 1 }
 }

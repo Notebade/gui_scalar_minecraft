@@ -3,6 +3,7 @@ package io.github.notebade.guiscalar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -11,10 +12,11 @@ import net.minecraft.network.chat.Component;
 
 public final class ScaleScreen extends Screen {
     private final Screen parent;
+    private ScaleLayer layer = ScaleLayer.GLOBAL;
     private ScaleSlider slider;
     private EditBox input;
     private boolean dragging;
-    private double anchorX, anchorY, anchorWidth, anchorHeight;
+    private double anchorX, anchorWidth;
 
     public ScaleScreen(Screen parent) {
         super(Component.translatable("gui_scalar.title"));
@@ -35,15 +37,24 @@ public final class ScaleScreen extends Screen {
                 .bounds(left + 172, 80, 52, 20).build());
         addRenderableWidget(Button.builder(Component.translatable("gui_scalar.apply"), b -> applyInput())
                 .bounds(left + 228, 80, 52, 20).build());
-        addRenderableWidget(Button.builder(Component.translatable("gui_scalar.vanilla"), b -> {
-            ScaleSettings.save(0);
+        addRenderableWidget(Button.builder(Component.translatable(layer == ScaleLayer.GLOBAL
+                ? "gui_scalar.vanilla" : "gui_scalar.inherit"), b -> {
+            ScaleSettings.save(layer, 0);
             minecraft.resizeDisplay();
         }).bounds(left, 132, 280, 20).build());
         addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, b -> onClose())
                 .bounds(left, 160, 280, 20).build());
+        addRenderableWidget(Button.builder(Component.translatable("gui_scalar.layer",
+                Component.translatable("gui_scalar.layer." + layer.key)), b -> {
+            layer = layer.next();
+            rebuildWidgets();
+        }).bounds(left, 190, 280, 20).build());
     }
 
-    private double current() { return minecraft.getWindow().getGuiScale(); }
+    private double current() {
+        double requested = ScaleSettings.requested(layer);
+        return requested == 0 ? minecraft.getWindow().getGuiScale() : Math.min(maximum(), requested);
+    }
 
     private double maximum() {
         var window = minecraft.getWindow();
@@ -51,7 +62,7 @@ public final class ScaleScreen extends Screen {
     }
 
     private void apply(double value) {
-        ScaleSettings.save(Math.min(maximum(), ScaleMath.round(value)));
+        ScaleSettings.save(layer, Math.min(maximum(), ScaleMath.round(value)));
         minecraft.resizeDisplay();
     }
 
@@ -74,14 +85,21 @@ public final class ScaleScreen extends Screen {
             super.resize(client, newWidth, newHeight);
             return;
         }
-        // Preserve mouse capture and the slider's physical position during live scaling.
+        // Keep the horizontal track under the mouse, but lay out every row at the new scale.
+        // Reinitializing the screen here would discard the slider's mouse capture.
         width = newWidth;
         height = newHeight;
-        double scale = current();
+        int left = width / 2 - 140;
+        int shift = left + 56 - input.getX();
+        for (var child : children()) {
+            if (child instanceof AbstractWidget widget && widget != slider) {
+                widget.setX(widget.getX() + shift);
+            }
+        }
+        double scale = minecraft.getWindow().getGuiScale();
         slider.setX((int) Math.round(anchorX / scale));
-        slider.setY((int) Math.round(anchorY / scale));
         slider.setWidth(Math.max(9, (int) Math.round(anchorWidth / scale)));
-        slider.setHeight(Math.max(1, (int) Math.round(anchorHeight / scale)));
+        input.setValue(ScaleSettings.format(current()));
     }
 
     @Override
@@ -116,18 +134,16 @@ public final class ScaleScreen extends Screen {
         @Override
         protected void applyValue() {
             if (dragging) {
-                ScaleSettings.preview(selected());
+                ScaleSettings.preview(layer, selected());
                 minecraft.resizeDisplay();
             }
         }
 
         @Override
         public void onClick(double x, double y) {
-            double scale = current();
+            double scale = minecraft.getWindow().getGuiScale();
             anchorX = getX() * scale;
-            anchorY = getY() * scale;
             anchorWidth = getWidth() * scale;
-            anchorHeight = getHeight() * scale;
             dragging = true;
             super.onClick(x, y);
         }

@@ -6,6 +6,10 @@
   "gui_scalar.apply": "Apply",
   "gui_scalar.vanilla": "Reset to vanilla scale / Auto",
   "gui_scalar.range": "1.00 - %s | Arrows / buttons: 0.01",
-  "gui_scalar.sodium.vanilla": "Vanilla",
-  "gui_scalar.sodium.tooltip": "Drag or use the left and right arrow keys to adjust the interface scale in steps of 0.01. Press Apply to save. The maximum depends on the window size."
+  "gui_scalar.sodium.tooltip": "Open live scale settings. The interface changes while dragging; releasing the slider saves the value. Arrow keys adjust by 0.01. The maximum depends on the window size.",
+  "gui_scalar.layer": "Layer: %s",
+  "gui_scalar.layer.scale": "Global interface",
+  "gui_scalar.layer.containerScale": "Inventory / crafting",
+  "gui_scalar.layer.hotbarScale": "Hotbar",
+  "gui_scalar.inherit": "Use global scale"
 }
